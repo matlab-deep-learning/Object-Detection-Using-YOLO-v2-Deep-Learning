@@ -1,0 +1,84 @@
+# CompilerName=msvcpp140
+# Mode=optim
+ninja_required_version = 1.3
+
+# Basic folders
+root = .
+builddir = $root\build\win64
+matlabdir = C:\Program Files\MATLAB\R2019a
+startdir = C:\Users\shmitra\Work\Deep_Learning\Seminar\19b\ResNetImportYolov2\HelperFilesAndFunctions
+
+# Toolchain information
+cc = cl
+cxx = cl
+linker = link
+linkerxx = link
+
+cflags =  /c /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /I "$root" /I "$startdir" /I "$root\interface" /I "$matlabdir\extern\include" /I "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\cuDNN\include" /I "."   
+
+cxxflags =   /c /Zp8 /GR /W3 /EHs /nologo /MD /D_CRT_SECURE_NO_DEPRECATE /D_SCL_SECURE_NO_DEPRECATE /D_SECURE_SCL=0   /DMATLAB_MEX_FILE  /DMATLAB_MEX_FILE /O2 /Oy- /DNDEBUG /fp:strict /I "$root" /I "$startdir" /I "$root\interface" /I "$matlabdir\extern\include" /I "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\cuDNN\include" /I "."   
+
+ldflags =  -Xlinker  /nologo -Xlinker  /manifest   -Xlinker  /DLL -L"$matlabdir\extern\lib\win64\microsoft" libmx.lib libmex.lib libmat.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib libMatlabDataArray.lib libMatlabEngine.lib   -arch sm_35  "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\cuDNN\lib\x64\cudnn.lib" -L"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\\lib\x64" cudart.lib cublas.lib cusolver.lib cufft.lib -Xlinker libemlrt.lib,libcovrt.lib,libut.lib,libmwmathutil.lib,/export:mexFunction,/export:emlrtMexFcnProperties -Xnvlink -w  -Wno-deprecated-gpu-targets -Xlinker /NODEFAULTLIB:libcmt.lib
+
+# Build Rules
+rule cc
+    command = $cc $cflags $in /Fo$out
+
+rule cxx
+    command = $cxx $cxxflags $in /Fo$out
+
+rule link
+    command = $linker $in $ldflags
+
+rule linkxx
+    command = $linkerxx $in $ldflags
+
+cudac = nvcc
+linkercuda = nvcc
+
+cudaflags =  -c -rdc=true -Xcompiler "/wd 4819" -Xcompiler "/MD" -Xptxas "-w" -Xcudafe "--display_error_number --diag_suppress=2381 --diag_suppress=unsigned_compare_with_zero --diag_suppress=useless_type_qualifier_on_return_type" -D_GNU_SOURCE -DMATLAB_MEX_FILE -Wno-deprecated-declarations -I "$root" -I "$startdir" -I "$root\interface" -I "$matlabdir\extern\include" -I "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\cuDNN\include" -I "."   -arch sm_35  -I "$matlabdir/simulink/include" -I "$matlabdir/toolbox/shared/simtargets"
+rule cudac
+    command = $cudac $cudaflags $in -o $out
+
+rule linkcuda
+    command = $linkercuda $ldflags -o $out $in
+
+# Build
+build $builddir\MWAdditionLayer.obj : cudac $root\MWAdditionLayer.cpp
+build $builddir\MWBatchNormalizationLayer.obj : cudac $root\MWBatchNormalizationLayer.cpp
+build $builddir\MWConvLayer.obj : cudac $root\MWConvLayer.cpp
+build $builddir\MWDepthConcatenationLayer.obj : cudac $root\MWDepthConcatenationLayer.cpp
+build $builddir\MWExponentialLayer.obj : cudac $root\MWExponentialLayer.cpp
+build $builddir\MWSigmoidLayer.obj : cudac $root\MWSigmoidLayer.cpp
+build $builddir\MWYoloExtractionLayer.obj : cudac $root\MWYoloExtractionLayer.cpp
+build $builddir\MWYoloSoftmaxLayer.obj : cudac $root\MWYoloSoftmaxLayer.cpp
+build $builddir\cnn_api.obj : cudac $root\cnn_api.cpp
+build $builddir\MWAdditionLayerImpl.obj : cudac $root\MWAdditionLayerImpl.cu
+build $builddir\MWBatchNormalizationLayerImpl.obj : cudac $root\MWBatchNormalizationLayerImpl.cu
+build $builddir\MWCNNLayerImpl.obj : cudac $root\MWCNNLayerImpl.cu
+build $builddir\MWConvLayerImpl.obj : cudac $root\MWConvLayerImpl.cu
+build $builddir\MWDepthConcatenationLayerImpl.obj : cudac $root\MWDepthConcatenationLayerImpl.cu
+build $builddir\MWExponentialLayerImpl.obj : cudac $root\MWExponentialLayerImpl.cu
+build $builddir\MWExponentialLayerImplKernel.obj : cudac $root\MWExponentialLayerImplKernel.cu
+build $builddir\MWSigmoidLayerImpl.obj : cudac $root\MWSigmoidLayerImpl.cu
+build $builddir\MWYoloExtractionLayerImpl.obj : cudac $root\MWYoloExtractionLayerImpl.cu
+build $builddir\MWYoloExtractionLayerImplKernel.obj : cudac $root\MWYoloExtractionLayerImplKernel.cu
+build $builddir\MWYoloSoftmaxLayerImpl.obj : cudac $root\MWYoloSoftmaxLayerImpl.cu
+build $builddir\MWTargetNetworkImpl.obj : cudac $root\MWTargetNetworkImpl.cu
+build $builddir\yolov2_detect_data.obj : cudac $root\yolov2_detect_data.cu
+build $builddir\yolov2_detect_initialize.obj : cudac $root\yolov2_detect_initialize.cu
+build $builddir\yolov2_detect_terminate.obj : cudac $root\yolov2_detect_terminate.cu
+build $builddir\yolov2_detect.obj : cudac $root\yolov2_detect.cu
+build $builddir\DeepLearningNetwork.obj : cudac $root\DeepLearningNetwork.cu
+build $builddir\activations.obj : cudac $root\activations.cu
+build $builddir\sort1.obj : cudac $root\sort1.cu
+build $builddir\createShapeInserter_cg.obj : cudac $root\createShapeInserter_cg.cu
+build $builddir\_coder_yolov2_detect_info.obj : cudac $root\interface\_coder_yolov2_detect_info.cu
+build $builddir\_coder_yolov2_detect_api.obj : cudac $root\interface\_coder_yolov2_detect_api.cu
+build $builddir\_coder_yolov2_detect_mex.obj : cudac $root\interface\_coder_yolov2_detect_mex.cu
+build $builddir\MWCudaDimUtility.obj : cudac $root\MWCudaDimUtility.cu
+build $builddir\MWLaunchParametersUtilities.obj : cudac $root\MWLaunchParametersUtilities.cu
+build $builddir\cpp_mexapi_version.obj : cudac $root\cpp_mexapi_version.cpp
+
+# Link
+build $root\yolov2_detect_mex.mexw64 : linkcuda $builddir\MWAdditionLayer.obj $builddir\MWBatchNormalizationLayer.obj $builddir\MWConvLayer.obj $builddir\MWDepthConcatenationLayer.obj $builddir\MWExponentialLayer.obj $builddir\MWSigmoidLayer.obj $builddir\MWYoloExtractionLayer.obj $builddir\MWYoloSoftmaxLayer.obj $builddir\cnn_api.obj $builddir\MWAdditionLayerImpl.obj $builddir\MWBatchNormalizationLayerImpl.obj $builddir\MWCNNLayerImpl.obj $builddir\MWConvLayerImpl.obj $builddir\MWDepthConcatenationLayerImpl.obj $builddir\MWExponentialLayerImpl.obj $builddir\MWExponentialLayerImplKernel.obj $builddir\MWSigmoidLayerImpl.obj $builddir\MWYoloExtractionLayerImpl.obj $builddir\MWYoloExtractionLayerImplKernel.obj $builddir\MWYoloSoftmaxLayerImpl.obj $builddir\MWTargetNetworkImpl.obj $builddir\yolov2_detect_data.obj $builddir\yolov2_detect_initialize.obj $builddir\yolov2_detect_terminate.obj $builddir\yolov2_detect.obj $builddir\DeepLearningNetwork.obj $builddir\activations.obj $builddir\sort1.obj $builddir\createShapeInserter_cg.obj $builddir\_coder_yolov2_detect_info.obj $builddir\_coder_yolov2_detect_api.obj $builddir\_coder_yolov2_detect_mex.obj $builddir\MWCudaDimUtility.obj $builddir\MWLaunchParametersUtilities.obj $builddir\cpp_mexapi_version.obj 
