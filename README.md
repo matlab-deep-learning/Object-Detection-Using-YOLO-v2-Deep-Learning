@@ -2,7 +2,7 @@
 
 This demo shows the full deep learning workflow for an example using image data in [MATLAB](https://www.mathworks.com/products/matlab.html). In it we use deep learning based object detection using Yolo v2 to identify vehicles of interest in a scene.
 
-![](Images/deep learning workflow.png)
+![](Images/deep-learning-workflow.png)
 
 We show how to perform:
 
@@ -48,6 +48,6 @@ Requires
 - [MATLAB Coder](https://www.mathworks.com/products/matlab-coder.html)
 - [GPU Coder](https://www.mathworks.com/products/gpu-coder.html)
 
-**[Download a free trial](https://www.mathworks.com/products/deep-learning.html)**
+**[Download a free MATLAB trial for Deep Learning](https://www.mathworks.com/products/deep-learning.html)**
 
 Copyright 2020 The MathWorks, Inc.
