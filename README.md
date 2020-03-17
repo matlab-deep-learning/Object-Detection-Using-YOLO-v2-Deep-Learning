@@ -4,7 +4,6 @@ This demo shows the full deep learning workflow for an example using image data 
 
 ![](Images/objectdetection.png)
 
-
 We show examples on how to perform the following parts of the Deep Learning workflow:
 
 - Part1 - Data Preparation
