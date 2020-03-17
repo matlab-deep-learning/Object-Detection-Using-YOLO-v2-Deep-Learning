@@ -4,7 +4,6 @@ This demo shows the full deep learning workflow for an example using image data 
 
 ![](Images/objectdetection.png)
 
-**Vehicle Detection with Yolo v2**
 
 We show examples on how to perform the following parts of the Deep Learning workflow:
 
@@ -14,7 +13,6 @@ We show examples on how to perform the following parts of the Deep Learning work
 
 ![](Images/deeplearningworkflow.png)
 
-**Deep Learning workflow**
 
 For more details, please refer to the documentation article [Getting Started with YOLO v2.](https://www.mathworks.com/help/vision/ug/getting-started-with-yolo-v2.html)
 
