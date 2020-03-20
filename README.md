@@ -53,4 +53,6 @@ Requires
 
 **[Download a free MATLAB trial for Deep Learning](https://www.mathworks.com/products/deep-learning.html)**
 
+[![View Object Detection Using YOLO v2 Deep-Learning on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/74572-object-detection-using-yolo-v2-deep-learning)
+
 Copyright 2020 The MathWorks, Inc.
